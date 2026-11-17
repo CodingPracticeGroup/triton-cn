@@ -3,7 +3,7 @@ title: triton_language.topk
 ---
 
 ```python
-triton.language.topk(x, k: core.constexpr, dim: core.constexpr = None, descending: core.constexpr = True)
+triton.language.topk(x, k, dim=None, descending=True)
 ```
 
 返回输入张量沿指定维度的 k 个最大（或最小）元素。

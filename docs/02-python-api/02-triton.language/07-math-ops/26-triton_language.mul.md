@@ -3,7 +3,7 @@ title: triton_language.mul
 ---
 
 ```python
-triton.language.mul(x, y, sanitize_overflow: constexpr = True)
+triton.language.mul(x, y, sanitize_overflow=True)
 ```
 
 计算 `x` 与 `y` 的逐元素乘积。

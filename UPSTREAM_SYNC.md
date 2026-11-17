@@ -41,3 +41,9 @@
 ## 同步一次上游的操作顺序
 
 见 `TRANSLATION_GUIDE.md` 最后一条。核对差异时的两个检查点：`docs/index.rst` 的 toctree 对比本仓库 `docs/` 结构；`docs/python-api/*.rst` 的 autosummary 条目对比 `docs/02-python-api/` 下的页面。
+
+写脚本按函数名到上游源码取签名或 docstring 时有下面几个坑（本次都踩过）：
+
+- 同一个名字可能在不同命名空间里是两个函数，例如 `triton.cdiv(x, y)`（`python/triton/__init__.py`）与 `triton.language.cdiv(x, div)`（`python/triton/language/standard.py`）；脚本必须按页面所属命名空间限定查找目录。
+- 很多 `triton.language` 条目的文档文本不在函数定义处，而是由 `_add_math_1arg_docstr`、`_add_atomic_docstr`、`_add_reduction_docstr`、`_add_scan_docstr`、`_add_binary_op_docstr` 等装饰器在运行时注入；跨模块引用这些工厂（如 `@core._add_reduction_docstr(...)`）时，脚本若不给这些名字提供真实实现就会取不到文本。
+- 只匹配行首无缩进的 `def`，并且括号配对要从这一行的左括号开始；从别处再找 `(` 会把注解或默认值里的括号当成签名结尾。

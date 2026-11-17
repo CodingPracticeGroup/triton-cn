@@ -3,7 +3,7 @@ title: triton_language.cast
 ---
 
 ```python
-triton.language.cast(input, dtype: dtype, fp_downcast_rounding: Optional[str] = None, bitcast: bool = False)
+triton.language.cast(input, dtype, fp_downcast_rounding=None, bitcast=False)
 ```
 
 将张量转换为指定的 `dtype`。

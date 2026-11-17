@@ -3,7 +3,7 @@ title: triton_language.make_tensor_descriptor
 ---
 
 ```python
-triton.language.make_tensor_descriptor(base, shape, strides, block_shape, padding_option, fp6_format)
+triton.language.make_tensor_descriptor(base, shape, strides, block_shape, padding_option="zero", fp6_format=None)
 ```
 
 创建一个张量描述符（tensor descriptor）对象。

@@ -10,7 +10,7 @@ triton.language.view(input, *shape)
 返回与 `input` 具有相同元素但形状不同的张量。元素的顺序会保持不变。
 
 
-**参数****：**
+**参数：**
 
 * **input** (*Block*) - 输入张量。
 * **shape** - 所需的形状。

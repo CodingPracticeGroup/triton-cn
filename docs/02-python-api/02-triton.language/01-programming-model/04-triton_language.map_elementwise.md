@@ -3,7 +3,7 @@ title: triton_language.map_elementwise
 ---
 
 ```python
-triton.language.map_elementwise(scalar_fn: Callable[..., Tuple[tensor, ...]], *args: tensor, pack=1)
+triton.language.map_elementwise(scalar_fn, *args, pack=1)
 ```
 
 将 1 个标量函数映射到张量上。

@@ -3,7 +3,7 @@ title: triton_language.minimum
 ---
 
 ```python
-triton.language.minimum(x, y, propagate_nan: constexpr = PropagateNan.NONE)
+triton.language.minimum(x, y, propagate_nan=PropagateNan.NONE)
 ```
 
 计算 `x` 与 `y` 的逐元素最小值。

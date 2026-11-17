@@ -7,14 +7,14 @@ title: triton_language.make_block_ptr
 :::
 
 ```python
-triton.language.make_block_ptr(base: tensor, shape, strides, offsets, block_shape, order)
+triton.language.make_block_ptr(base, shape, strides, offsets, block_shape, order)
 ```
 
 
 返回指向父张量中 1 个块的指针。
 
 
-**参数****：**
+**参数：**
 
 * **base** - 父张量的基础指针。
 * **shape** - 父张量的形状。

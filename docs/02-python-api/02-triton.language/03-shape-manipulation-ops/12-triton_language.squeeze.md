@@ -3,7 +3,7 @@ title: triton_language.squeeze
 ---
 
 ```python
-triton.language.squeeze(x, dim: core.constexpr)
+triton.language.squeeze(x, dim)
 ```
 
 

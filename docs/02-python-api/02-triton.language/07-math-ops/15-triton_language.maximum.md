@@ -3,7 +3,7 @@ title: triton_language.maximum
 ---
 
 ```python
-triton.language.maximum(x, y, propagate_nan: constexpr = PropagateNan.NONE)
+triton.language.maximum(x, y, propagate_nan=PropagateNan.NONE)
 ```
 
 计算 `x` 与 `y` 的逐元素最大值。

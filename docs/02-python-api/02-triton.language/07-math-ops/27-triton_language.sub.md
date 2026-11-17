@@ -3,7 +3,7 @@ title: triton_language.sub
 ---
 
 ```python
-triton.language.sub(x, y, sanitize_overflow: constexpr = True)
+triton.language.sub(x, y, sanitize_overflow=True)
 ```
 
 计算 `x` 与 `y` 的逐元素差。

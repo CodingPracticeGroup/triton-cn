@@ -3,7 +3,7 @@ title: triton_language.sort
 ---
 
 ```python
-triton.language.sort(x, dim: core.constexpr = None, descending: core.constexpr = core.CONSTEXPR_0)
+triton.language.sort(x, dim=None, descending=core.CONSTEXPR_0)
 ```
 
 沿着指定维度对张量进行排序。

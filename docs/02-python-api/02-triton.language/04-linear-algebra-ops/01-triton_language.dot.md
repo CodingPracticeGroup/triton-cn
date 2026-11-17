@@ -3,7 +3,7 @@ title: triton_language.dot
 ---
 
 ```python
-triton.language.dot(input, other, acc, input_precision, allow_tf32, max_num_imprecise_acc, out_dtype)
+triton.language.dot(input, other, acc=None, input_precision=None, allow_tf32=None, max_num_imprecise_acc=None, out_dtype=None)
 ```
 
 返回 2 个块的矩阵乘积。

@@ -11,7 +11,7 @@ triton.language.reshape(input, *shape, can_reorder=False)
 返回一个具有与输入相同元素数量，但具有所提供形状的张量。
 
 
-**参数****：**
+**参数：**
 
 * **input** (*Block*) - 输入张量。
 * **shape** - 新的形状。

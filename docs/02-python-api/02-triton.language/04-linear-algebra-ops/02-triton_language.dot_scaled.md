@@ -3,7 +3,7 @@ title: triton_language.dot_scaled
 ---
 
 ```python
-triton.language.dot_scaled(lhs, lhs_scale, lhs_format, rhs, rhs_scale, rhs_format, acc, fast_math, lhs_k_pack, rhs_k_pack, out_dtype)
+triton.language.dot_scaled(lhs, lhs_scale, lhs_format, rhs, rhs_scale, rhs_format, acc=None, fast_math=False, lhs_k_pack=True, rhs_k_pack=True, out_dtype=float32)
 ```
 
 返回 2 个采用微缩放（microscaling）格式的块的矩阵乘积。

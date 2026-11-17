@@ -10,7 +10,7 @@ triton.language.permute(input, *dims)
 排列张量的维度。
 
 
-**参数****：**
+**参数：**
 
 * **input** (*Block*) - 输入张量。
 

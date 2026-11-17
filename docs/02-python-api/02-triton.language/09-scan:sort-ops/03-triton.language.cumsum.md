@@ -3,7 +3,7 @@ title: triton.language.cumsum
 ---
 
 ```python
-triton.language.cumsum(input, axis=0, reverse=False, dtype: core.constexpr = None)
+triton.language.cumsum(input, axis=0, reverse=False, dtype=None)
 ```
 
 返回沿指定 `axis` 的 `input` 张量中所有元素的累积和。

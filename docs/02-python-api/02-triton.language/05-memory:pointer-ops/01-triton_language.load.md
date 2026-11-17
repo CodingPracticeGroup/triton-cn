@@ -3,7 +3,7 @@ title: triton_language.load
 ---
 
 ```python
-triton.language.load(pointer, mask, other, *, cache_modifier, eviction_policy, volatile)
+triton.language.load(pointer, mask=None, other=None, *, cache_modifier="", eviction_policy="", volatile=False)
 ```
 
 返回 1 个数据张量，其值从由 `pointer` 所定义的内存位置处加载：

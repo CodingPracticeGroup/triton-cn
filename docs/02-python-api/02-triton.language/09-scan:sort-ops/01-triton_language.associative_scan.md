@@ -3,7 +3,7 @@ title: triton_language.associative_scan
 ---
 
 ```python
-triton.language.associative_scan(input, axis, combine_fn, reverse=False)
+triton.language.associative_scan(input, axis, combine_fn, reverse=False)
 ```
 
 

@@ -13,7 +13,7 @@ triton.language.expand_dims(input, axis)
 轴索引是相对于生成的张量而言的，因此对于每个轴，`result.shape[axis]` 将为 1。
 
 
-**参数****：**
+**参数：**
 
 * **input** (*tl.tensor*) - 输入张量。
 * **axis** (*int* | *Sequence[int]*) - 要添加新轴的索引。

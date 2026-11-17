@@ -19,7 +19,7 @@ triton.language.split(a)
 `split` 是 `join` 的逆操作。
 
 
-**参数****：**
+**参数：**
 
 * **a** (*Tensor*) - 要被分割的张量。
 

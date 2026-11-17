@@ -3,7 +3,7 @@ title: triton_language.store
 ---
 
 ```python
-triton.language.store(pointer, value, mask, *, cache_modifier, eviction_policy)
+triton.language.store(pointer, value, mask=None, *, cache_modifier="", eviction_policy="")
 ```
 
 将数据张量存储到由 `pointer` 定义的内存位置。
