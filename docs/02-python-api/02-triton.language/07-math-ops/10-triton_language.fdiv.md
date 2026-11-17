@@ -3,7 +3,7 @@ title: triton_language.fdiv
 ---
 
 ```python
-triton.language.fdiv(x, y, ieee_rounding, approx)
+triton.language.fdiv(x, y, ieee_rounding=False, approx=False)
 ```
 
 计算 `x` 除以 `y` 的逐元素除法。

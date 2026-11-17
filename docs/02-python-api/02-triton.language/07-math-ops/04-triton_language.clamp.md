@@ -3,7 +3,7 @@ title: triton_language.clamp
 ---
 
 ```python
-triton.language.clamp(x, min, max, propagate_nan)
+triton.language.clamp(x, min, max, propagate_nan=PropagateNan.NONE)
 ```
 
 将输入张量 `x` 钳制在 [min, max] 范围内。当 `min` > `max` 时，行为未定义。

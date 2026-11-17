@@ -3,7 +3,7 @@ title: triton_language.add
 ---
 
 ```python
-triton.language.add(x, y, sanitize_overflow)
+triton.language.add(x, y, sanitize_overflow=True)
 ```
 
 计算 `x` 与 `y` 的逐元素和。
