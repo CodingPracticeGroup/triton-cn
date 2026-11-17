@@ -3,7 +3,7 @@ title: triton_language.static_assert
 ---
 
 ```python
-triton.language.static_assert(cond, msg='')
+triton.language.static_assert(cond, msg="")
 ```
 
 

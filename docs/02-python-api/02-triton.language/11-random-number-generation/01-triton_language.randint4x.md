@@ -3,7 +3,7 @@ title: triton_language.randint4x
 ---
 
 ```python
-triton.language.randint4x(seed, offset, n_rounds: constexpr = 10)
+triton.language.randint4x(seed, offset, n_rounds=N_ROUNDS_DEFAULT)
 ```
 
 
@@ -13,7 +13,7 @@ triton.language.randint4x(seed, offset, n_rounds: constexpr = 10)
 这是 Triton 的 Philox  伪随机数生成器的最高效入口点。
 
 
-**参数****：**
+**参数：**
 
 * **seed** - 用于生成随机数的种子。
 * **offsets** - 用于生成随机数的偏移量。

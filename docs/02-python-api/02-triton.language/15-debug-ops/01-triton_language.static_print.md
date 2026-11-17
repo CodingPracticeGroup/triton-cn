@@ -3,7 +3,7 @@ title: triton_language.static_print
 ---
 
 ```python
-triton.language.static_print(*values, sep: str = ' ', end: str = '\n', file=None, flush=False)
+triton.language.static_print(*values, sep=" ", end="\n", file=None, flush=False)
 ```
 
 
