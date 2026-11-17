@@ -4,7 +4,7 @@ title: triton.autotune
 
 
 ```python
-triton.autotune(configs, key, prune_configs_by=None, reset_to_zero=None, restore_value=None, pre_hook=None, post_hook=None, warmup=25, rep=100, use_cuda_graph=False)
+triton.autotune(configs, key, prune_configs_by=None, reset_to_zero=None, restore_value=None, pre_hook=None, post_hook=None, warmup=None, rep=None, use_cuda_graph=False, do_bench=None, cache_results=False)
 ```
 
 
@@ -20,8 +20,8 @@ triton.autotune(configs, key, prune_configs_by=None, reset_to_zero=None, restore
                  # the value of x_size changes  变量 x_size 的值发生了变化
 )
 @triton.jit
-def kernel(x_ptr, x_size, **META):
-    BLOCK_SIZE = META['BLOCK_SIZE']
+def kernel(x_ptr, x_size, BLOCK_SIZE: tl.constexpr):
+    ...
 ```
 
 
@@ -43,21 +43,26 @@ def kernel(x_ptr, x_size, **META):
 * **prune_configs_by** - 修剪配置的函数字典。包含以下字段：
    * 'perf_model': 性能模型，用于预测不同配置的运行时间，返回运行时间
    * 'top_k'：要进行基准测试的配置数量
-   * 'early_config_prune'（可选）：用于提前修剪配置的函数（例如，num_stages）。它接收 configs: List[Config] 作为输入，并返回修剪后的配置
+   * 'early_config_prune'：用于修剪配置的函数。它应具有以下签名：
+      `prune_configs_by( configs: List[triton.Config], named_args: Dict[str, Any], **kwargs: Dict[str, Any]) -> List[triton.Config]:`
+      并返回修剪后的配置。它至少要返回一个配置。
 
 * **reset_to_zero** (*list[str]*) - 参数名称列表，将在任何配置解析之前被重置为零。
 
 * **restore_value** (*list[str]*) - 参数名称列表，这些参数的值将在解析任何配置之后恢复。
 
-* **pre_hook**（*lambda args**,**reset_only**)*- 一个将在调用内核之前被调用的函数。该参数会覆盖 ‘reset_to_zero’ 和 ‘restore_value’  的默认 ‘pre_hook’。
-   * ‘args’：传递给内核的参数列表
+* **pre_hook**（*lambda args, reset_only*）- 一个将在调用内核之前被调用的函数。该参数会覆盖 ‘reset_to_zero’ 和 ‘restore_value’  的默认 ‘pre_hook’。
+   * ‘kwargs’：传递给内核的全部参数构成的字典
    * ‘reset_only’：一个布尔值，表示 pre_hook 是否仅用于重置值，而没有对应的 post_hook
 
 * **post_hook**（*lambda args, exception*）：一个将在调用内核之后被调用的函数。该参数会覆盖 ‘restore_value’ 的默认 post_hook。
-   * *‘args’*：传递给内核的参数列表
+   * *‘kwargs’*：传递给内核的全部参数构成的字典
    * *‘exception’*：在出现编译或运行时错误情况下，由内核引发的异常
 
-* **warmup** (*int**)*- 传递给基准测试的预热时间（以毫秒为单位），默认值为 25。
+* **warmup** (*int*) - 传递给基准测试的预热时间（以毫秒为单位）。已弃用。
 
-* **rep** (*int*) - 传递给基准测试的重复时间（以毫秒为单位），默认值为 100。
+* **rep** (*int*) - 传递给基准测试的重复时间（以毫秒为单位）。已弃用。
 
+* **do_bench** (*lambda fn, quantiles*) - 用于测量每次运行时长的基准测试函数。
+
+* **cache_results** - 是否将自动调优的计时结果缓存到磁盘。默认为 False。

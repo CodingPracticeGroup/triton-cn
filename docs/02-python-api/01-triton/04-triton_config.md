@@ -3,8 +3,8 @@ title: triton.Config
 ---
 
 
-```plain
- classtriton.Config(self, kwargs, num_warps=4, num_stages=2, num_ctas=1, maxnreg=None, pre_hook=None)
+```python
+triton.Config(kwargs, num_warps=4, num_stages=3, num_ctas=1, maxnreg=None, pre_hook=None, ir_override=None)
 ```
 
 
@@ -26,7 +26,7 @@ title: triton.Config
 
 * **pre_hook** – 在调用内核之前将被调用的函数。该函数的参数是 args。
 
-`__init__(self, kwargs, num_warps=4, num_stages=2, num_ctas=1, maxnreg=None, pre_hook=None)`
+* **ir_override** – 用户自定义 IR 的文件名（`*.{ttgir|llir|ptx|amdgcn}`）。
 
 
 **方法**
