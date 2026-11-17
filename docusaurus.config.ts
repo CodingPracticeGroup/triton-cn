@@ -78,6 +78,25 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        // 跟随上游改名的页面：文件名与标题按上游更新，旧地址在此重定向，避免线上已分发的链接失效。
+        redirects: [
+          {
+            to: "/docs/getting-started/tutorials/extern-functions",
+            from: "/docs/getting-started/tutorials/libdevice-tl.extra.libdevice-function",
+          },
+          {
+            to: "/docs/getting-started/tutorials/grouped-gemm",
+            from: "/docs/getting-started/tutorials/group-gemm",
+          },
+        ],
+      },
+    ],
+  ],
+
   // https://docusaurus.io/docs/markdown-features/math-equations
   stylesheets: [
     {

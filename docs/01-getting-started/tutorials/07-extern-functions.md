@@ -1,15 +1,14 @@
 ---
-title: Libdevice (tl_extra.libdevice) 函数
+title: Libdevice (tl.extra.libdevice) 函数
 ---
 
 [在线运行此教程](https://openbayes.com/console/hyperai-tutorials/containers/RFagQOhvTsc)
 
-Triton 可以调用外部库中的自定义函数。在这个例子中，我们将使用 libdevice 库在张量上应用 asin 函数。请参考以下链接获取关于所有可用 libdevice 函数语义的详细信息：
+Triton 可以调用外部库中的自定义函数。在这个例子中，我们将使用 `libdevice` 库在张量上应用 `asin` 函数。
 
-* CUDA：https://docs.nvidia.com/cuda/libdevice-users-guide/index.html
-* HIP：https://github.com/ROCm/llvm-project/tree/amd-staging/amd/device-libs/ocml/src
+关于所有可用 libdevice 函数的语义，请参阅 [CUDA libdevice-users-guide](https://docs.nvidia.com/cuda/libdevice-users-guide/index.html) 和/或 [HIP device-lib 源代码](https://github.com/ROCm/llvm-project/tree/amd-staging/amd/device-libs/ocml/src)。
 
-在 *libdevice.py* 中，我们试图将相同计算但不同数据类型的函数聚合在一起。例如，__nv_asin 和 __nv_asinf 都计算输入的反正弦的主值，但 __nv_asin 适用于 double 类型，而 __nv_asinf 适用于 float 类型。使用 Triton，您可以简单地调用 tl.math.asin。根据输入和输出类型，Triton 会自动选择正确的底层设备函数来调用。
+在 `libdevice.py` 中，我们试图将执行相同计算但针对不同数据类型的函数聚合在一起。例如，`__nv_asin` 和 `__nv_asinf` 都计算输入的反正弦的主值，但 `__nv_asin` 作用于 `double` 类型，而 `__nv_asinf` 作用于 `float` 类型。Triton 会根据输入和输出类型，自动选择要调用的正确底层设备函数。
 
 
 ## asin 内核
@@ -17,12 +16,15 @@ Triton 可以调用外部库中的自定义函数。在这个例子中，我们�
 ```python
 import torch
 
-
 import triton
 import triton.language as tl
+import inspect
+import os
 from triton.language.extra import libdevice
 
+from pathlib import Path
 
+DEVICE = triton.runtime.driver.active.get_active_torch_device()
 
 
 @triton.jit
@@ -50,8 +52,8 @@ def asin_kernel(
 ```python
 torch.manual_seed(0)
 size = 98432
-x = torch.rand(size, device='cuda')
-output_triton = torch.zeros(size, device='cuda')
+x = torch.rand(size, device=DEVICE)
+output_triton = torch.zeros(size, device=DEVICE)
 output_torch = torch.asin(x)
 assert x.is_cuda and output_triton.is_cuda
 n_elements = output_torch.numel()
@@ -71,12 +73,35 @@ Out:
 ## 定制 libdevice 库路径
 
 
-可以通过将 libdevice 库的路径传递给 asin 内核来定制 libdevice 库的路径。
+可以通过将 `libdevice` 库的路径传递给 `asin` 内核来定制 libdevice 库的路径。
 
 
 ```python
+def is_cuda():
+    return triton.runtime.driver.active.get_current_target().backend == "cuda"
+
+
+def is_hip():
+    return triton.runtime.driver.active.get_current_target().backend == "hip"
+
+
+current_file = inspect.getfile(inspect.currentframe())
+current_dir = Path(os.path.dirname(os.path.abspath(current_file)))
+
+if is_cuda():
+    libdir = current_dir.parent.parent / 'third_party/nvidia/backend/lib'
+    extern_libs = {'libdevice': str(libdir / 'libdevice.10.bc')}
+elif is_hip():
+    libdir = current_dir.parent.parent / 'third_party/amd/backend/lib'
+    extern_libs = {}
+    libs = ["ocml", "ockl"]
+    for lib in libs:
+        extern_libs[lib] = str(libdir / f'{lib}.bc')
+else:
+    raise RuntimeError('unknown backend')
+
 output_triton = torch.empty_like(x)
-asin_kernel[grid](x, output_triton, n_elements, BLOCK_SIZE=1024)
+asin_kernel[grid](x, output_triton, n_elements, BLOCK_SIZE=1024, extern_libs=extern_libs)
 print(output_torch)
 print(output_triton)
 print(f'The maximum difference between torch and triton is '

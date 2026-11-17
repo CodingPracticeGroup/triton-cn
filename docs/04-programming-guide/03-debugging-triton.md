@@ -4,6 +4,8 @@ title: 对 Triton 进行 Debug
 
 本教程提供了调试 Triton 程序的指导，主要面向 Triton 用户。有兴趣探索 Triton 后端，包括 MLIR 代码转换及 LLVM 代码生成的开发者，可以参考此 [部分](https://github.com/triton-lang/triton?tab=readme-ov-file#tips-for-hacking) 来查看调试选项。
 
+关于在编译器层面对浮点计算进行的插桩检查，请参见[浮点检查器 (FpSan)](./04-fpsan.md)。
+
 
 ## 使用 Triton debugging operations
 
@@ -77,7 +79,7 @@ x = tl.load(ptr)
 对于在 NVIDIA GPU 上的调试，[compute-sanitizer](https://docs.nvidia.com/cuda/compute-sanitizer/index.html) 是一个有效的工具，用于检查数据竞争和内存访问问题。要使用它，请在运行 Triton 程序的命令前加上 `compute-sanitizer`。
 
 
-对于在 AMD GPU 上的调试，可以尝试 ROCm 的 LLVM [AddressSanitizer](https://rocm.docs.amd.com/en/latest/conceptual/using-gpu-sanitizer.html)。
+对于在 AMD GPU 上的调试，可以尝试 ROCm 的 LLVM [AddressSanitizer](https://rocm.docs.amd.com/projects/llvm-project/en/latest/conceptual/using-gpu-sanitizer.html)。
 
 
 要详细可视化 Triton 程序的内存访问，考虑使用 [triton-viz](https://github.com/Deep-Learning-Profiling-Tools/triton-viz) 工具，它与底层 GPU 无关。
