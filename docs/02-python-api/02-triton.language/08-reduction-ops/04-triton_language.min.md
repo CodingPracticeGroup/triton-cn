@@ -3,7 +3,7 @@ title: triton_language.min
 ---
 
 ```python
-triton.language.min(input, axis=None, return_indices=False, return_indices_tie_break_left=True, keep_dims=False, propagate_nan: core.constexpr = core.PropagateNan.NONE)
+triton.language.min(input, axis=None, return_indices=False, return_indices_tie_break_left=True, keep_dims=False, propagate_nan=core.PropagateNan.NONE)
 ```
 
 返回 `input` 张量沿指定 `axis` 的所有元素的最小值。
