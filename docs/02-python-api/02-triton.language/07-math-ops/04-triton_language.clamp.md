@@ -3,17 +3,17 @@ title: triton_language.clamp
 ---
 
 ```python
-triton.language.clamp(x, min, max, propagate_nan: ~triton.language.core.constexpr = <PROPAGATE_NAN.NONE: 0>)
+triton.language.clamp(x, min, max, propagate_nan)
 ```
- 将输入张量 `x` 的值限制在 [min, max] 范围内。 
+
+将输入张量 `x` 钳制在 [min, max] 范围内。当 `min` > `max` 时，行为未定义。
 
 **参数：**
 
-* **x** (*Block*) - 输入值。
-* **min** (*Block*) – 限制操作的下界值。
-* **max** (*Block*) – 限制操作的上界值。
-* **propagate_nan** (*tl.PropagateNan*) – 是否将 NaN 值传播出去。此设置仅对张量`x`有效。如果`min`或`max`中任一值为NaN，则最终结果将无法确定。
+* **x** (*Block*) - 输入张量。
+* **min** (*Block*) - 钳制操作的下界值。
+* **max** (*Block*) - 钳制操作的上界值。
+* **propagate_nan** (*tl.PropagateNan*) - 是否传播 NaN 值。仅对张量 `x` 生效。如果 `min` 或 `max` 中任一值为 NaN，则结果未定义。
 
 > 另请参阅  
 > tl.PropagateNan
-

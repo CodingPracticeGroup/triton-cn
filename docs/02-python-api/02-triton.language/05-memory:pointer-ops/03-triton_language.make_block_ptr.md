@@ -2,6 +2,10 @@
 title: triton_language.make_block_ptr
 ---
 
+:::note
+上游当前版本的 `triton.language` 文档列表已不再收录 `make_block_ptr`；上游 `tl.load`/`tl.store` 的签名中也不再出现块指针相关的参数。该函数在上游源码中仍然存在，本页保留，供阅读旧代码时查阅。
+:::
+
 ```python
 triton.language.make_block_ptr(base: tensor, shape, strides, offsets, block_shape, order)
 ```

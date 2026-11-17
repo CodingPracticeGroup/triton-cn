@@ -15,6 +15,7 @@ triton.language.reshape(input, *shape, can_reorder=False)
 
 * **input** (*Block*) - 输入张量。
 * **shape** - 新的形状。
+* **can_reorder** - 已忽略。为向后兼容而保留。
 
 `shape` 可以作为 1 个元组或作为单独的参数被传递：
 
