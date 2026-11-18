@@ -4,6 +4,12 @@ import type * as Preset from "@docusaurus/preset-classic";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
+const SITE_URL =
+  process.env.DOCUSAURUS_URL ?? "https://CodingPracticeGroup.github.io";
+// 站点发布在 GitHub Pages 的项目站点路径下（https://<org>.github.io/<repo>/）。
+// 若以后改用自定义域名：把 DOCUSAURUS_URL 设为站点地址、DOCUSAURUS_BASE_URL 设为 "/"。
+const BASE_URL = process.env.DOCUSAURUS_BASE_URL ?? "/triton-cn/";
+
 const config: Config = {
   title: "Triton 中文站",
   tagline:
@@ -11,15 +17,15 @@ const config: Config = {
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: SITE_URL,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  baseUrl: BASE_URL,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "facebook", // Usually your GitHub org/user name.
-  projectName: "docusaurus", // Usually your repo name.
+  organizationName: "CodingPracticeGroup", // Usually your GitHub org/user name.
+  projectName: "triton-cn", // Usually your repo name.
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -75,6 +81,25 @@ const config: Config = {
           trackingID: "G-YY2E0ZQRP8",
         },
       } satisfies Preset.Options,
+    ],
+  ],
+
+  plugins: [
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        // 跟随上游改名的页面：文件名与标题按上游更新，旧地址在此重定向，避免线上已分发的链接失效。
+        redirects: [
+          {
+            to: "/docs/getting-started/tutorials/extern-functions",
+            from: "/docs/getting-started/tutorials/libdevice-tl.extra.libdevice-function",
+          },
+          {
+            to: "/docs/getting-started/tutorials/grouped-gemm",
+            from: "/docs/getting-started/tutorials/group-gemm",
+          },
+        ],
+      },
     ],
   ],
 

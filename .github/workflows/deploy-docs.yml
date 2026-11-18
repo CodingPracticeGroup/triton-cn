@@ -1,0 +1,69 @@
+name: Deploy Docs to GitHub Pages
+
+# 站点只发布我们自己的分支：master 仅用于跟踪上游 triton-lang/triton，保持只读。
+# 需要换分支时改两处：下面的 push.branches 与 workflow_dispatch 的默认分支。
+# 也可以随时用「Run workflow」手动选择任意分支发布一次。
+on:
+  push:
+    branches:
+      - sync-upstream-docs-2026-11
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "要发布的分支"
+        required: true
+        default: "sync-upstream-docs-2026-11"
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一次 Pages 发布；构建期间不取消已排队的发布
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # fetch-depth: 0 以便以后打开 showLastUpdateTime / showLastUpdateAuthor
+          ref: ${{ inputs.branch || github.ref }}
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4 # 版本取自 package.json 的 packageManager 字段
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Docusaurus site
+        run: pnpm build
+        env:
+          # 默认值已写在 docusaurus.config.ts 中，这里只是把部署目标显式化
+          DOCUSAURUS_URL: https://CodingPracticeGroup.github.io
+          DOCUSAURUS_BASE_URL: /triton-cn/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

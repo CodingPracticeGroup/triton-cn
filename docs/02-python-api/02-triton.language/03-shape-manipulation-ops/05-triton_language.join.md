@@ -27,7 +27,7 @@ If you want to join more than two elements, you can use multiple calls to this f
 `join` 是 `split` 的逆操作。
 
 
-**参数****：**
+**参数：**
 
 * **a** (*T**ensor*)– 第 1 个输入张量。
 * **b** (*T**en**sor*) - 第 2 个输入张量。

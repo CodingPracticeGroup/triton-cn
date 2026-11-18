@@ -3,7 +3,7 @@ title: triton_language.randint
 ---
 
 ```python
-triton.language.randint(seed, offset, n_rounds: constexpr = 10)
+triton.language.randint(seed, offset, n_rounds=N_ROUNDS_DEFAULT)
 ```
 
 
@@ -13,7 +13,7 @@ triton.language.randint(seed, offset, n_rounds: constexpr = 10)
 如果需要多个随机数流，使用 randint4x 可能比连续调用 4 次 randint 更快。
 
 
-**参数****：**
+**参数：**
 
 * **seed** - 用于生成随机数的种子。
 * **offsets** - 用于生成随机数的偏移量。

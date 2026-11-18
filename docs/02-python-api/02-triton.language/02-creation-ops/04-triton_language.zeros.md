@@ -3,7 +3,7 @@ title: triton_language.zeros
 ---
 
 ```python
-triton.language.zeros(shape, dtype
+triton.language.zeros(shape, dtype)
 ```
 
 

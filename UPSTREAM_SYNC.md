@@ -1,0 +1,57 @@
+# 上游同步记录
+
+本项目的中文内容以英文上游 <https://triton-lang.org/main/index.html> 为准。为避免“最新版”这种无法复现的说法，这里记录每次同步实际依据的上游提交。
+
+## 当前同步基线
+
+| 项目 | 值 |
+| --- | --- |
+| 上游仓库 | <https://github.com/triton-lang/triton> |
+| 同步到的提交 | `c590e26174098075360fbe67bf251f9c408c7d89`（main，2026-11-17） |
+| 对应的最近发布版 | v3.9.0（2026-10-26） |
+| 上一个基线 | 上游 main 在 2024-12-11 前后的快照（介于 v3.1.0 与 v3.2.0 之间；本仓库最后一次内容更新 commit `9a14798`） |
+
+## 本次同步（分支 `sync-upstream-docs-2026-11`）覆盖范围
+
+1. 快速开始与教程：安装页；教程 01–05 逐行跟随上游（含 `DEVICE` 取代硬编码 `device="cuda"`、上游新增的 `tl.assume`、`debug_barrier`、grid 写法等），02/03/06/08/09 整页对齐；新增 `10-block-scaled-matmul`、`11-programmatic-dependent-launch`；教程索引页的安装命令跟随上游。
+2. 跟随上游改名（旧地址用 `@docusaurus/plugin-client-redirects` 保留）：
+   - `07-libdevice-tl.extra.libdevice-function.md` → `07-extern-functions.md`
+   - `08-group-gemm.md` → `08-grouped-gemm.md`
+   
+   注意：上游只改了文件名，该页 docstring 标题仍是 `Libdevice (tl.extra.libdevice) function`，中文页标题按此处理。
+3. 编程指南：调试页新增指向 FpSan 的链接并修正 ROCm 文档链接；新增 FpSan 一章。
+4. `triton-semantics`：补充除法/取模的提升例外、`float4e2m1x2` 与 `float8e8m0fnu` 的类型映射、链式比较、超出范围的浮点转整数、变量作用域。
+5. `triton.language` API 页：按上游 `docs/python-api/*.rst` 的条目清单补齐缺页、刷新签名与文档文本（含由 `_add_*_docstr` 装饰器模板注入、以及 autodoc 从类定义生成这两类文本）；`triton.*`、`triton.testing` 与 `triton.language.extra.cuda` 同步；`02-triton.language/README.md` 索引按上游条目顺序重建。
+
+## 本轮的取舍与已知偏差
+
+- 签名写法：统一为 `triton.language.<名称>(参数=默认值…)`，**不写类型注解**，去掉 `self` 与下划线开头的私有参数。这与上游 Sphinx 渲染出的形式不完全一致（例如 `rand4x` 的 `n_rounds` 上游渲染为 `constexpr[10]`，我们写源码里的 `N_ROUNDS_DEFAULT`）；如要照线上站呈现，需要人工确定一套统一的写法后逐页改。
+- `Out:` 基准数据表：凡本页代码已变化、旧数据不再由代码产生的，一律删除（01–06、08、09 等页），不编造新数据。
+- 图片（`![图片](/img/docs/Tutorials/...)`）：保留旧版构建产物，需要在有 GPU 的环境重跑教程才能更新。
+- 上游文档本身的不一致按原文保留，不代为订正：例如 `randn4x`/`randint4x` 的 `:param offsets:` 与签名参数名 `offset` 不符；若干陈旧注释与代码不符（如 06 页 `# Use device_descriptor for Hopper + warpspec.` 与实际条件相反）。
+- `sort`：该快照里上游 `sort` 自身已无 docstring（文档文本在内部实现 `sort_impl` 上），中文页保留对 `sort` 参数仍然成立的概述，并去掉不再适用的「可作为 tensor 成员函数调用」一句。
+
+## 暂未覆盖（已知缺口，留待后续分支）
+
+- Gluon 全部文档：`gluon/index` 概览、`gluon/api/*`（NVIDIA Ampere/Hopper/Blackwell/Rubin、AMD CDNA3/4/5、RDNA3/4、runtime）以及 14 篇 Gluon 教程（`python/tutorials/gluon/*`）。
+- `docs/meetups/*`（上游会议记录，非文档正文，本项目历史上未翻译）。
+- MLIR Dialects 页面：上游由 TableGen 在构建时生成（`docs/conf.py` 的 `setup_generated_mlir_docs()` 从 CMake 构建目录 `build/cmake.*/docs/dialects/` 拷入），不在上游仓库源码里。本仓库是静态页。上游该组共 10 个方言 + 10 个「Dialect Ops」条目，本项目已翻译 5 个（`‘tt’ Dialect`、`TritonGPUOps`、`TritonOps`、`TritonNvidiaGPUOps`、`NVGPUOps`），其余 15 个已放占位页：侧边栏与该组索引页按上游顺序列出全部 20 条并标注「待翻译」，占位页内给出英文原文地址与该组内容的生成方式。补翻译需要构建一次上游文档（或从英文站取生成结果），不要凭记忆补写；长期应改为脚本生成。
+- 上游把 API 页完全交给 Sphinx autodoc 生成，本项目是逐页手工维护；后续可考虑写脚本从上游 docstring 生成英文底稿，再由人翻译，以减少每次同步的手工量。
+
+## 同步一次上游的操作顺序
+
+见 `TRANSLATION_GUIDE.md` 最后一条。核对差异时的三个检查点：
+
+- 侧边栏结构：上游侧边栏的分组与顺序来自 `docs/index.rst` 里各个 hidden toctree 的 `:caption:` 与其条目（Getting Started / Python API / Gluon / Triton MLIR Dialects / Programming Guide）。本仓库对应 `docs/` 下各目录的 `_category_.json`：`label` 用中文小节名（未翻译的小节保留 API 名原文），`position` 与上游顺序一致；上游有、我们未翻译的分组（Gluon）不出现在侧边栏里。
+- 页面清单：`docs/python-api/*.rst` 的 autosummary 条目对比 `docs/02-python-api/` 下的页面。
+- 教程与正文：`docs/index.rst` 的 toctree 对比本仓库 `docs/` 结构。
+
+注意：`triton.language.extra.cuda` 在上游只被正文链接引用、不在 toctree 中；本仓库把它作为 `triton.language` 下的一个小节，避免已翻译的内容在侧边栏里不可达。`docs/project-references.md`（引用项目）是本站自有页面，上游没有对应项。
+
+侧边栏的顺序由 `_category_.json` 的 `position` 决定，不受目录名前缀影响。因此有一处前缀与顺序不一致：`16-floating-point-sanitization` 的 position 是 15、`15-debug-ops` 的 position 是 16，这是为了跟上游 `triton.language.rst` 的小节顺序（… Compiler Hint Ops → Floating-Point Sanitization → Debug Ops）一致而不去改动已有页面的 URL。改这里之前先确认上游顺序。
+
+写脚本按函数名到上游源码取签名或 docstring 时有下面几个坑（本次都踩过）：
+
+- 同一个名字可能在不同命名空间里是两个函数，例如 `triton.cdiv(x, y)`（`python/triton/__init__.py`）与 `triton.language.cdiv(x, div)`（`python/triton/language/standard.py`）；脚本必须按页面所属命名空间限定查找目录。
+- 很多 `triton.language` 条目的文档文本不在函数定义处，而是由 `_add_math_1arg_docstr`、`_add_atomic_docstr`、`_add_reduction_docstr`、`_add_scan_docstr`、`_add_binary_op_docstr` 等装饰器在运行时注入；跨模块引用这些工厂（如 `@core._add_reduction_docstr(...)`）时，脚本若不给这些名字提供真实实现就会取不到文本。
+- 只匹配行首无缩进的 `def`，并且括号配对要从这一行的左括号开始；从别处再找 `(` 会把注解或默认值里的括号当成签名结尾。

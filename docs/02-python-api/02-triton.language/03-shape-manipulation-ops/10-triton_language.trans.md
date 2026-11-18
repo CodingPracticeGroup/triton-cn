@@ -3,17 +3,17 @@ title: triton_language.trans
 ---
 
 ```python
-triton.language.trans(input: tensor, *dims)
+triton.language.trans(input, *dims)
 ```
 
 
 置换张量的维度。
 
 
-如果参数`dims` 未被指定，该函数默认为 (1,0) 置换，有效地转置了 1 个二维张量。
+如果参数 `dims` 未被指定，该函数默认为交换最后 2 个轴，从而执行一个（可选批量化的）二维转置。
 
 
-**参数****：**
+**参数：**
 
 * **input** – 输入张量。
 * **dims** – 期望的维度顺序。例如，(2, 1, 0) 将在 1 个三维张量中反转维度的顺序。

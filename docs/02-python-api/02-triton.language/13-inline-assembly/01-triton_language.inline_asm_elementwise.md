@@ -3,7 +3,7 @@ title: triton_language.inline_asm_elementwise
 ---
 
 ```python
-triton.language.inline_asm_elementwise(asm: str, constraints: str, args: Sequence, dtype: dtype | Sequence[dtype], is_pure: bool, pack: int)
+triton.language.inline_asm_elementwise(asm, constraints, args, dtype, is_pure, pack)
 ```
 
 
@@ -11,6 +11,9 @@ triton.language.inline_asm_elementwise(asm: str, constraints: str, args: Sequenc
 
 
 输入张量 `args` 隐式地广播到相同的形状。
+
+
+在 Gluon 中，`args` 还可以包含共享内存描述符或张量内存（tensor memory）描述符。每个描述符每次调用贡献 1 个 `i32` 地址，这与 `pack` 无关，且不参与广播。描述符操作数要求 `is_pure=False`；汇编被保守地视为会读写这些描述符的视图，并且访问必须保持在它们的逻辑元素范围之内。
 
 
 `dtype` 可以是类型的元组，此时输出将是张量的元组。
@@ -86,17 +89,14 @@ def kernel(A, B, C, D, BLOCK: tl.constexpr):
 ```
 
 
-**参数****：**
+**参数：**
 
 * **asm** - 要运行的汇编代码。必须与目标的汇编格式匹配。
 * **constraints** - 采用 [LLVM 格式](https://llvm.org/docs/LangRef.html#inline-asm-constraint-string)的汇编约束条件。
 * **args** - 输入张量，其值传递给汇编块。
-* **dtype** - 返回张量的元素类型。
+* **dtype** - 返回的张量（一个或多个）的元素类型。
 * **is_pure** - 如果为 true，编译器假定汇编块没有副作用。
 * **pack** - 单个内联汇编实例处理的元素数量。
-* **_builder** - 构建器。
 
-**返回值****：**
-
-* 给定类型的 1 个张量或 1 组张量元组
+**返回：** 给定类型的 1 个张量，或由这些类型构成的 1 个张量元组。
 

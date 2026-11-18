@@ -1,3 +1,8 @@
+---
+title: "TritonOps"
+sidebar_position: 17
+---
+
 ### `tt.call` (triton::CallOp)
 
 

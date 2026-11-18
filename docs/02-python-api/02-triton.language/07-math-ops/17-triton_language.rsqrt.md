@@ -6,12 +6,8 @@ title: triton_language.rsqrt
 triton.language.rsqrt(x)
 ```
 
+计算 `x` 的逐元素倒数平方根。
 
-计算 `x` 的逐元素倒数平方根。 
+**参数：**
 
-
-**参数****：**
-
-* **x** (*Block*) - 输入值。
-
-
+* **x**（*Block*）- 输入值。
