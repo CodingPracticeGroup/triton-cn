@@ -35,7 +35,7 @@
 
 - Gluon 全部文档：`gluon/index` 概览、`gluon/api/*`（NVIDIA Ampere/Hopper/Blackwell/Rubin、AMD CDNA3/4/5、RDNA3/4、runtime）以及 14 篇 Gluon 教程（`python/tutorials/gluon/*`）。
 - `docs/meetups/*`（上游会议记录，非文档正文，本项目历史上未翻译）。
-- MLIR Dialects 页面：上游由 TableGen 自动生成，本项目现有的 5 个静态页与生成结果会有差异；如需长期跟住上游，应改为脚本生成，而不是手工维护。
+- MLIR Dialects 页面：上游由 TableGen 在构建时生成（`docs/conf.py` 的 `setup_generated_mlir_docs()` 从 CMake 构建目录 `build/cmake.*/docs/dialects/` 拷入），不在上游仓库源码里。本仓库是静态页。上游该组共 10 个方言 + 10 个「Dialect Ops」条目，本项目已翻译 5 个（`‘tt’ Dialect`、`TritonGPUOps`、`TritonOps`、`TritonNvidiaGPUOps`、`NVGPUOps`），其余 15 个已放占位页：侧边栏与该组索引页按上游顺序列出全部 20 条并标注「待翻译」，占位页内给出英文原文地址与该组内容的生成方式。补翻译需要构建一次上游文档（或从英文站取生成结果），不要凭记忆补写；长期应改为脚本生成。
 - 上游把 API 页完全交给 Sphinx autodoc 生成，本项目是逐页手工维护；后续可考虑写脚本从上游 docstring 生成英文底稿，再由人翻译，以减少每次同步的手工量。
 
 ## 同步一次上游的操作顺序

@@ -1,3 +1,8 @@
+---
+title: "‘tt’ 方言 (‘tt’ Dialect)"
+sidebar_position: 8
+---
+
 MLIR Triton Dialect 中的 Triton IR。
 
 

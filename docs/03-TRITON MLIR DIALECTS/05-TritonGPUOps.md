@@ -1,3 +1,8 @@
+---
+title: "TritonGPUOps"
+sidebar_position: 13
+---
+
 ## `triton_gpu.async_commit_group`
 
 ## (triton::gpu::AsyncCommitGroupOp)
