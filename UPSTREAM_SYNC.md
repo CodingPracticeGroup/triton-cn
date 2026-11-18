@@ -40,7 +40,13 @@
 
 ## 同步一次上游的操作顺序
 
-见 `TRANSLATION_GUIDE.md` 最后一条。核对差异时的两个检查点：`docs/index.rst` 的 toctree 对比本仓库 `docs/` 结构；`docs/python-api/*.rst` 的 autosummary 条目对比 `docs/02-python-api/` 下的页面。
+见 `TRANSLATION_GUIDE.md` 最后一条。核对差异时的三个检查点：
+
+- 侧边栏结构：上游侧边栏的分组与顺序来自 `docs/index.rst` 里各个 hidden toctree 的 `:caption:` 与其条目（Getting Started / Python API / Gluon / Triton MLIR Dialects / Programming Guide）。本仓库对应 `docs/` 下各目录的 `_category_.json`：`label` 用中文小节名（未翻译的小节保留 API 名原文），`position` 与上游顺序一致；上游有、我们未翻译的分组（Gluon）不出现在侧边栏里。
+- 页面清单：`docs/python-api/*.rst` 的 autosummary 条目对比 `docs/02-python-api/` 下的页面。
+- 教程与正文：`docs/index.rst` 的 toctree 对比本仓库 `docs/` 结构。
+
+注意：`triton.language.extra.cuda` 在上游只被正文链接引用、不在 toctree 中；本仓库把它作为 `triton.language` 下的一个小节，避免已翻译的内容在侧边栏里不可达。`docs/project-references.md`（引用项目）是本站自有页面，上游没有对应项。
 
 写脚本按函数名到上游源码取签名或 docstring 时有下面几个坑（本次都踩过）：
 
