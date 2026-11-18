@@ -48,6 +48,8 @@
 
 注意：`triton.language.extra.cuda` 在上游只被正文链接引用、不在 toctree 中；本仓库把它作为 `triton.language` 下的一个小节，避免已翻译的内容在侧边栏里不可达。`docs/project-references.md`（引用项目）是本站自有页面，上游没有对应项。
 
+侧边栏的顺序由 `_category_.json` 的 `position` 决定，不受目录名前缀影响。因此有一处前缀与顺序不一致：`16-floating-point-sanitization` 的 position 是 15、`15-debug-ops` 的 position 是 16，这是为了跟上游 `triton.language.rst` 的小节顺序（… Compiler Hint Ops → Floating-Point Sanitization → Debug Ops）一致而不去改动已有页面的 URL。改这里之前先确认上游顺序。
+
 写脚本按函数名到上游源码取签名或 docstring 时有下面几个坑（本次都踩过）：
 
 - 同一个名字可能在不同命名空间里是两个函数，例如 `triton.cdiv(x, y)`（`python/triton/__init__.py`）与 `triton.language.cdiv(x, div)`（`python/triton/language/standard.py`）；脚本必须按页面所属命名空间限定查找目录。

@@ -1,6 +1,6 @@
 {
   "label": "浮点检查（FpSan）",
-  "position": 16,
+  "position": 15,
   "collapsible": true,
   "collapsed": true
 }
